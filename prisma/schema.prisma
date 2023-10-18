@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id   String @id @default(uuid())
+  name String
+  email String @unique
+  password String 
+  role UserRole
+  profileImg String
+  reviewAndRatings ReviewAndRating[]
+  createdAt     DateTime @default(now())
+  bookings Booking[]
+  feedback Feedback[]
+
+  @@map("users")
+}
+model Category {
+  id   String @id @default(uuid())
+  title String 
+  events Event[] 
+
+ @@map("categories")
+}
+model Event {
+  id   String @id @default(uuid())
+  title String 
+  description String 
+  price Int 
+  totalSeats Int 
+  availableSeats Int
+  eventDate String
+  imageUrl String 
+  location String
+  categoryId String
+  category Category @relation(fields: [categoryId],references: [id])
+  createdAt String 
+  updatedAt String 
+
+
+  reviewAndRatings ReviewAndRating[]
+  bookings Booking[]
+  speakers Speaker[]
+
+ @@map("events")
+}
+
+model ReviewAndRating {
+  id   String @id @default(uuid())
+  review String
+  rating  Int 
+  userId String
+  user User @relation(fields: [userId],references: [id])
+  eventId String
+  events Event @relation(fields: [eventId],references: [id])
+  
+
+ @@map("reviews_and_ratings")
+}
+model Booking {
+  id   String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId],references: [id])
+  eventId String
+  events Event @relation(fields: [eventId],references: [id])
+  status Boolean @default(false)
+
+ @@map("bookings")
+}
+
+model Blogs {
+  id   String  @id  @default(uuid())
+  blogTitle String
+  description String
+  imageUrl String
+
+ @@map("blogs")
+}
+
+
+
+model Feedback {
+  id   String @id @default(uuid())
+  feedback String
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+ @@map("feedback")
+}
+
+model Speaker {
+  id   String @id @default(uuid())
+  name String
+  designation String
+  profileImg String
+  eventId String[]
+  
+  events Event @relation(fields: [eventId],references: [id])
+
+ @@map("speakers")
+}
+
+
+enum UserRole {
+ admin
+ super_admin 
+ user
+}
+
+
