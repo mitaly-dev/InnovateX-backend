@@ -13,13 +13,20 @@ const insertIntoDB = async (data: ReviewAndRating): Promise<any> => {
 };
 
 const getAllData = async (): Promise<ReviewAndRating[]> => {
-  const result = await prisma.reviewAndRating.findMany();
+  const result = await prisma.reviewAndRating.findMany({
+    include: {
+      events: true,
+    },
+  });
   return result;
 };
 const getData = async (id: string): Promise<ReviewAndRating | null> => {
   const result = await prisma.reviewAndRating.findUnique({
     where: {
       id,
+    },
+    include: {
+      events: true,
     },
   });
   return result;
@@ -34,6 +41,9 @@ const updateData = async (
       id,
     },
     data: payload,
+    include: {
+      events: true,
+    },
   });
   return result;
 };

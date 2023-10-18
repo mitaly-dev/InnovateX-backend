@@ -23,14 +23,14 @@ model User {
 }
 model Category {
   id   String @id @default(uuid())
-  title String 
+  title String @unique
   events Event[] 
 
  @@map("categories")
 }
 model Event {
   id   String @id @default(uuid())
-  title String 
+  title String @unique
   description String 
   price Int 
   totalSeats Int 
@@ -40,8 +40,7 @@ model Event {
   location String
   categoryId String
   category Category @relation(fields: [categoryId],references: [id])
-  createdAt String 
-  updatedAt String 
+  createdAt DateTime @default(now())
 
 
   reviewAndRatings ReviewAndRating[]
@@ -59,7 +58,7 @@ model ReviewAndRating {
   user User @relation(fields: [userId],references: [id])
   eventId String
   events Event @relation(fields: [eventId],references: [id])
-  
+  createdAt DateTime @default(now())
 
  @@map("reviews_and_ratings")
 }
@@ -70,6 +69,7 @@ model Booking {
   eventId String
   events Event @relation(fields: [eventId],references: [id])
   status Boolean @default(false)
+  createdAt DateTime @default(now())
 
  @@map("bookings")
 }
@@ -79,6 +79,7 @@ model Blogs {
   blogTitle String
   description String
   imageUrl String
+  createdAt DateTime @default(now())
 
  @@map("blogs")
 }
@@ -90,6 +91,7 @@ model Feedback {
   feedback String
   userId String
   user User @relation(fields: [userId],references: [id])
+  createdAt DateTime @default(now())
 
  @@map("feedback")
 }
@@ -101,6 +103,7 @@ model Speaker {
   profileImg String
   eventId String
   events Event @relation(fields: [eventId],references: [id])
+  createdAt DateTime @default(now())
 
  @@map("speakers")
 }

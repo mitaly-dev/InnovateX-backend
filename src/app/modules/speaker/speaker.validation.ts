@@ -11,7 +11,7 @@ const create = z.object({
     profileImg: z.string({
       required_error: 'profileImg is required',
     }),
-    eventId: z.number({
+    eventId: z.string({
       required_error: 'eventId  is required',
     }),
   }),
@@ -22,7 +22,7 @@ const update = z.object({
     name: z.string().optional(),
     designation: z.string().optional(),
     profileImg: z.string().optional(),
-    eventId: z.number().optional(),
+    eventId: z.string().optional(),
   }),
 });
 

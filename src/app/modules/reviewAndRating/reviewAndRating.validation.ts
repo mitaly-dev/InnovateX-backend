@@ -5,7 +5,7 @@ const create = z.object({
     review: z.string({
       required_error: 'review is required',
     }),
-    rating: z.string({
+    rating: z.number({
       required_error: 'author is required',
     }),
     userId: z.string({
@@ -19,10 +19,10 @@ const create = z.object({
 
 const update = z.object({
   body: z.object({
-    title: z.string().optional(),
-    author: z.string().optional(),
-    genre: z.string().optional(),
-    price: z.number().optional(),
+    review: z.string().optional(),
+    rating: z.number().optional(),
+    userId: z.string().optional(),
+    eventId: z.string().optional(),
   }),
 });
 

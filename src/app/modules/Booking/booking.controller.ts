@@ -30,12 +30,7 @@ const getAllBooking = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getBooking = catchAsync(async (req: Request, res: Response) => {
-  const user = req.user;
-  const result = await BookingService.getBooking(
-    req.params.id,
-    user?.userId,
-    user?.role,
-  );
+  const result = await BookingService.getBooking(req.params.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -61,7 +56,7 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Order is deleted successfully',
+    message: 'Booking is deleted successfully',
     data: result,
   });
 });

@@ -9,6 +9,20 @@ const insertIntoDB = async (
   payload: any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
+  const alreadyExit = await prisma.booking.findFirst({
+    where: {
+      user: {
+        id: userId,
+      },
+    },
+    include: {
+      events: true,
+    },
+  });
+
+  if (alreadyExit) {
+    throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'Already Booked');
+  }
   const result = await prisma.booking.create({
     data: {
       userId,
@@ -32,9 +46,16 @@ const getAllBooking = async (
           id: userId,
         },
       },
+      include: {
+        events: true,
+      },
     });
   } else {
-    result = await prisma.booking.findMany();
+    result = await prisma.booking.findMany({
+      include: {
+        events: true,
+      },
+    });
   }
   if (result?.length === 0) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found!');
@@ -42,28 +63,15 @@ const getAllBooking = async (
   return result;
 };
 
-const getBooking = async (
-  id: string,
-  userId: string,
-  role: string,
-): Promise<Booking | null> => {
-  let result;
-
-  if (role === UserRole.user) {
-    result = await prisma.booking.findUnique({
-      where: {
-        id,
-        userId,
-      },
-    });
-  } else {
-    result = await prisma.booking.findUnique({
-      where: {
-        id,
-      },
-    });
-  }
-
+const getBooking = async (id: string): Promise<Booking | null> => {
+  const result = await prisma.booking.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      events: true,
+    },
+  });
   if (!result) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found!');
   }
@@ -78,6 +86,9 @@ const updateData = async (
     where: {
       id,
     },
+    include: {
+      events: true,
+    },
     data: payload,
   });
   return result;
@@ -87,6 +98,9 @@ const deleteData = async (id: string): Promise<Booking> => {
   const result = await prisma.booking.delete({
     where: {
       id,
+    },
+    include: {
+      events: true,
     },
   });
   return result;

@@ -5,6 +5,7 @@ import { CategoryRoutes } from '../modules/category/category.route';
 import { EventRoutes } from '../modules/event/event.route';
 import { ProfileRoutes } from '../modules/profile/profile.route';
 import { ReviewAndRatingRoutes } from '../modules/reviewAndRating/reviewAndRating.route';
+import { SpeakerRoutes } from '../modules/speaker/speaker.route';
 import { UserRoutes } from '../modules/user/user.route';
 
 const router = express.Router();
@@ -38,6 +39,10 @@ const moduleRoutes = [
   {
     path: '/review_rating',
     route: ReviewAndRatingRoutes,
+  },
+  {
+    path: '/speakers',
+    route: SpeakerRoutes,
   },
 ];
 

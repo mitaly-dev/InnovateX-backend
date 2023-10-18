@@ -16,8 +16,6 @@ const signupZodSchema = z.object({
     role: z.enum([...Object.values(UserRole)] as [string, ...string[]], {
       required_error: 'User role is required',
     }),
-    contactNo: z.string({ required_error: 'contactNo is required' }),
-    address: z.string({ required_error: 'address is required' }),
     profileImg: z.string({ required_error: 'profileImg is required' }),
   }),
 });
