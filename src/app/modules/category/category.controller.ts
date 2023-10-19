@@ -27,6 +27,7 @@ const getAllData = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getData = catchAsync(async (req: Request, res: Response) => {
+  console.log('req.params.id', req.params.id);
   const result = await CategoryService.getData(req.params.id);
   sendResponse(res, {
     statusCode: httpStatus.OK,

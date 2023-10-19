@@ -3,7 +3,6 @@ import { BookingRoutes } from '../modules/Booking/booking.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { CategoryRoutes } from '../modules/category/category.route';
 import { EventRoutes } from '../modules/event/event.route';
-import { ProfileRoutes } from '../modules/profile/profile.route';
 import { ReviewAndRatingRoutes } from '../modules/reviewAndRating/reviewAndRating.route';
 import { SpeakerRoutes } from '../modules/speaker/speaker.route';
 import { UserRoutes } from '../modules/user/user.route';
@@ -31,10 +30,6 @@ const moduleRoutes = [
   {
     path: '/bookings',
     route: BookingRoutes,
-  },
-  {
-    path: '/profile',
-    route: ProfileRoutes,
   },
   {
     path: '/review_rating',

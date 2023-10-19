@@ -17,7 +17,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllData = catchAsync(async (req: Request, res: Response) => {
-  const result = await ReviewAndRatingService.getAllData();
+  const result = await ReviewAndRatingService.getAllData(req.params.id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
