@@ -18,6 +18,7 @@ model User {
   createdAt     DateTime @default(now())
   bookings Booking[]
   feedback Feedback[]
+  carts Cart[]
 
   @@map("users")
 }
@@ -46,6 +47,7 @@ model Event {
   reviewAndRatings ReviewAndRating[]
   bookings Booking[]
   speakers Speaker[]
+   carts Cart[]
 
  @@map("events")
 }
@@ -106,6 +108,16 @@ model Speaker {
   createdAt DateTime @default(now())
 
  @@map("speakers")
+}
+model Cart {
+  id   String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId],references: [id])
+  eventId String
+  events Event @relation(fields: [eventId],references: [id])
+  createdAt DateTime @default(now())
+
+ @@map("carts")
 }
 
 
