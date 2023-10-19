@@ -10,7 +10,7 @@ router.post(
   validateRequest(ReviewAndRatingValidation.create),
   ReviewAndRatingCtrl.insertIntoDB,
 );
-router.get('/', ReviewAndRatingCtrl.getAllData);
+router.get('/:id', ReviewAndRatingCtrl.getAllData);
 router.get('/:id', ReviewAndRatingCtrl.getData);
 router.patch(
   '/:id',

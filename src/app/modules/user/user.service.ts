@@ -21,15 +21,13 @@ const getData = async (id: string): Promise<User | null> => {
   return result;
 };
 
-const updateData = async (
-  id: string,
-  payload: Partial<User>,
-): Promise<User> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateData = async (id: string, payload: any): Promise<User> => {
   const result = await prisma.user.update({
     where: {
       id,
     },
-    data: payload,
+    data: { ...payload?.data },
   });
   return result;
 };

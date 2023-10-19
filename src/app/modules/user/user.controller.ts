@@ -27,6 +27,7 @@ const getData = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateData = catchAsync(async (req: Request, res: Response) => {
+  console.log('req.bodyreq.body=====================', req.body);
   const result = await UserService.updateData(req.params.id, req.body);
 
   sendResponse(res, {

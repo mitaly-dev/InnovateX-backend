@@ -34,21 +34,6 @@ const getAllData = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getCategoryEvents = catchAsync(async (req: Request, res: Response) => {
-  const options = pick(req.query, optionsData);
-  const result = await EventService.getCategoryEvents(
-    req.params.id,
-    req.params.category,
-    options,
-  );
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Events with associated category data fetched successfully',
-    data: result,
-  });
-});
-
 const getData = catchAsync(async (req: Request, res: Response) => {
   const result = await EventService.getData(req.params.id);
   sendResponse(res, {
@@ -83,7 +68,6 @@ const deleteData = catchAsync(async (req: Request, res: Response) => {
 export const EventCtrl = {
   insertIntoDB,
   getAllData,
-  getCategoryEvents,
   getData,
   updateData,
   deleteData,

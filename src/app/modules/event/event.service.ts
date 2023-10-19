@@ -19,9 +19,6 @@ const insertIntoDB = async (data: Event): Promise<any> => {
       where: {
         id: createData?.id,
       },
-      include: {
-        category: true,
-      },
     });
     return result;
   }
@@ -31,7 +28,7 @@ const getAllData = async (
   filter: IfilterData,
   options: IPaginationOptions,
 ): Promise<IGenericResponse<Event[]>> => {
-  const { search, category, ...filterData } = filter;
+  const { search, ...filterData } = filter;
 
   const andConditions = [];
   if (search) {
@@ -45,14 +42,6 @@ const getAllData = async (
     });
   }
 
-  if (category) {
-    andConditions.push({
-      category: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        id: category,
-      },
-    });
-  }
   if (Object.keys(filterData)?.length > 0) {
     andConditions.push({
       AND: Object.keys(filterData).map(key => ({
@@ -89,9 +78,6 @@ const getAllData = async (
             [options.sortBy]: options?.sortOrder,
           }
         : { price: 'desc' },
-    include: {
-      category: true,
-    },
   });
 
   const total = await prisma.event.count();
@@ -106,49 +92,7 @@ const getAllData = async (
     data: result,
   };
 };
-const getCategoryEvents = async (
-  categoryId: string,
-  title: string,
-  options: IPaginationOptions,
-): Promise<IGenericResponse<Event[]>> => {
-  const { page, size, skip } = paginationHelpers.calculatePagination(options);
 
-  const result = await prisma.event.findMany({
-    where: {
-      category: {
-        id: categoryId,
-        title,
-      },
-    },
-    skip,
-    take: size,
-    orderBy:
-      options.sortBy && options.sortOrder
-        ? {
-            [options.sortBy]: options?.sortOrder,
-          }
-        : { price: 'desc' },
-    include: {
-      category: true,
-    },
-  });
-
-  const total = await prisma.event.count();
-
-  if (result?.length == 0) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Books not found!');
-  }
-
-  return {
-    meta: {
-      total,
-      size: 1,
-      totalPage: Math.round(total / size),
-      page,
-    },
-    data: result,
-  };
-};
 const getData = async (id: string): Promise<Event | null> => {
   const result = await prisma.event.findUnique({
     where: {
@@ -158,18 +102,14 @@ const getData = async (id: string): Promise<Event | null> => {
   return result;
 };
 
-const updateData = async (
-  id: string,
-  payload: Partial<Event>,
-): Promise<Event> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const updateData = async (id: string, payload: any): Promise<Event> => {
   const result = await prisma.event.update({
     where: {
       id,
     },
-    include: {
-      category: true,
-    },
-    data: payload,
+
+    data: payload?.data,
   });
   return result;
 };
@@ -179,9 +119,6 @@ const deleteData = async (id: string): Promise<Event> => {
     where: {
       id,
     },
-    include: {
-      category: true,
-    },
   });
   return result;
 };
@@ -189,7 +126,6 @@ const deleteData = async (id: string): Promise<Event> => {
 export const EventService = {
   insertIntoDB,
   getAllData,
-  getCategoryEvents,
   getData,
   updateData,
   deleteData,

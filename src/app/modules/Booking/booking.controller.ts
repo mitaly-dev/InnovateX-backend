@@ -7,7 +7,10 @@ import { BookingService } from './booking.service';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
-  const result = await BookingService.insertIntoDB(user?.userId, req.body);
+  const result = await BookingService.insertIntoDB(
+    user?.userId,
+    req.body?.eventId,
+  );
 
   sendResponse<Event>(res, {
     statusCode: httpStatus.OK,
@@ -30,7 +33,8 @@ const getAllBooking = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getBooking = catchAsync(async (req: Request, res: Response) => {
-  const result = await BookingService.getBooking(req.params.id);
+  const user = req.user;
+  const result = await BookingService.getBooking(req.params.id, user?.userId);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

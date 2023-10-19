@@ -26,9 +26,6 @@ const create = z.object({
     location: z.string({
       required_error: 'location is required',
     }),
-    categoryId: z.string({
-      required_error: 'categoryId is required',
-    }),
   }),
 });
 
@@ -43,7 +40,6 @@ const update = z.object({
     eventDate: z.string().optional(),
     imageUrl: z.string().optional(),
     location: z.string().optional(),
-    categoryId: z.string().optional(),
   }),
 });
 

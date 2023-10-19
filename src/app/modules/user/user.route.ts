@@ -12,12 +12,13 @@ router.get(
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   UserCtrl.getAllData,
 );
-router.get('/:id', UserCtrl.getData);
 router.patch(
   '/:id',
   validateRequest(UserValidation.update),
   UserCtrl.updateData,
 );
+router.get('/:id', UserCtrl.getData);
+
 router.delete(
   '/:id',
   auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),

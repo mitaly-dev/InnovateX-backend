@@ -14,7 +14,6 @@ router.post(
   EventCtrl.insertIntoDB,
 );
 router.get('/', EventCtrl.getAllData);
-router.get('/:id/:category', EventCtrl.getCategoryEvents);
 router.get('/:id', EventCtrl.getData);
 router.patch(
   '/:id',

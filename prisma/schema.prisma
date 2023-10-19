@@ -25,8 +25,6 @@ model User {
 model Category {
   id   String @id @default(uuid())
   title String @unique
-  events Event[] 
-
  @@map("categories")
 }
 model Event {
@@ -39,8 +37,6 @@ model Event {
   eventDate String
   imageUrl String 
   location String
-  categoryId String
-  category Category @relation(fields: [categoryId],references: [id])
   createdAt DateTime @default(now())
 
 
@@ -55,7 +51,7 @@ model Event {
 model ReviewAndRating {
   id   String @id @default(uuid())
   review String
-  rating  Int 
+  rating  Int @default(4)
   userId String
   user User @relation(fields: [userId],references: [id])
   eventId String

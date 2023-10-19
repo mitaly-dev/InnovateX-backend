@@ -6,7 +6,7 @@ import { prisma } from '../../../shared/prisma';
 
 const insertIntoDB = async (
   userId: string,
-  payload: any,
+  eventId: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
   const alreadyExit = await prisma.booking.findFirst({
@@ -14,6 +14,7 @@ const insertIntoDB = async (
       user: {
         id: userId,
       },
+      eventId: eventId,
     },
     include: {
       events: true,
@@ -21,12 +22,12 @@ const insertIntoDB = async (
   });
 
   if (alreadyExit) {
-    throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'Already Booked');
+    throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'Already Added!');
   }
   const result = await prisma.booking.create({
     data: {
       userId,
-      ...payload,
+      eventId: eventId,
     },
   });
 
@@ -48,12 +49,14 @@ const getAllBooking = async (
       },
       include: {
         events: true,
+        user: true,
       },
     });
   } else {
     result = await prisma.booking.findMany({
       include: {
         events: true,
+        user: true,
       },
     });
   }
@@ -63,13 +66,18 @@ const getAllBooking = async (
   return result;
 };
 
-const getBooking = async (id: string): Promise<Booking | null> => {
-  const result = await prisma.booking.findUnique({
+const getBooking = async (
+  eventId: string,
+  userId: string,
+): Promise<Booking | null> => {
+  const result = await prisma.booking.findFirst({
     where: {
-      id,
+      eventId: eventId,
+      userId: userId,
     },
     include: {
       events: true,
+      user: true,
     },
   });
   if (!result) {

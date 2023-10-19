@@ -17,7 +17,7 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
 });
 const getAllData = catchAsync(async (req: Request, res: Response) => {
   const user = req.user;
-  const result = await CartService.getAllData(user?.userId);
+  const result = await CartService.getAllData(user?.userId, req.body.eventId);
 
   sendResponse<Cart[]>(res, {
     statusCode: httpStatus.OK,
